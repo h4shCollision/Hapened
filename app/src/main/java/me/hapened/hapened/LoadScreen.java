@@ -12,6 +12,7 @@ public class LoadScreen extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_screen);
     }
+    // hey whats up
 /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
