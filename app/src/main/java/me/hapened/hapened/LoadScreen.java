@@ -1,17 +1,37 @@
 package me.hapened.hapened;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 
 public class LoadScreen extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_screen);
+
+        Thread welcomeThread = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    super.run();
+                    sleep(10000);  //Delay of 10 seconds
+                } catch (Exception e) {
+
+                } finally {
+
+                    //Intent i = new Intent(LoadScreen.this, .class);
+                    //startActivity(i);
+                    finish();
+                }
+            }
+        };
+        welcomeThread.start();
     }
+
+
 /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
