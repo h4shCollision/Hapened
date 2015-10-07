@@ -1,10 +1,11 @@
 package me.hapened.hapened;
 
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class LoadScreen extends ActionBarActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,6 @@ public class LoadScreen extends ActionBarActivity {
         };
         welcomeThread.start();
     }
-
-
 /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
