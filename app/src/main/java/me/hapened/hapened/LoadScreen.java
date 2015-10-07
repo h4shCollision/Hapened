@@ -1,9 +1,8 @@
 package me.hapened.hapened;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 
 public class LoadScreen extends ActionBarActivity {
 
@@ -18,13 +17,12 @@ public class LoadScreen extends ActionBarActivity {
             public void run() {
                 try {
                     super.run();
-                    sleep(10000);  //Delay of 10 seconds
+                    sleep(1000);  //Delay of 10 seconds
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 } finally {
-
-                    //Intent i = new Intent(LoadScreen.this, .class);
-                    //startActivity(i);
+                    Intent i = new Intent(LoadScreen.this, ListAll.class);
+                    startActivity(i);
                     LoadScreen.this.finish();
                 }
             }
