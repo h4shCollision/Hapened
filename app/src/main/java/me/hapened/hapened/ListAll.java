@@ -1,16 +1,41 @@
 package me.hapened.hapened;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class ListAll extends ActionBarActivity {
 
+    ListView main;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_all);
+        main=(ListView)findViewById(R.id.mainlist);
+        ArrayList<String> al=new ArrayList<>(10);
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        al.add("ahj");
+        main.setAdapter(new CustomAdapter(this,R.id.itemtv,al));
     }
 
     @Override
@@ -33,5 +58,26 @@ public class ListAll extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class CustomAdapter extends ArrayAdapter<String>{
+
+        ArrayList<String> titles;
+        public CustomAdapter(Context context, int resource, ArrayList<String> objects) {
+            super(context, resource, objects);
+            titles=objects;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                LayoutInflater vi;
+                vi = LayoutInflater.from(getContext());
+                convertView = vi.inflate(R.layout.listitem, null);
+            }
+            TextView t= (TextView) convertView.findViewById(R.id.itemtv);
+            t.setText(Integer.toString(position));
+            return t;
+        }
     }
 }
