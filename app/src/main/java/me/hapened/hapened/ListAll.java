@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,7 +36,17 @@ public class ListAll extends ActionBarActivity {
         al.add("ahj");
         al.add("ahj");
         al.add("ahj");
-        main.setAdapter(new CustomAdapter(this,R.id.itemtv,al));
+        main.setAdapter(new CustomAdapter(this, R.id.itemtv, al));
+        main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    //go to add new note here
+                }else{
+                    //open existing note here
+                }
+            }
+        });
     }
 
     @Override
@@ -76,7 +87,10 @@ public class ListAll extends ActionBarActivity {
                 convertView = vi.inflate(R.layout.listitem, null);
             }
             TextView t= (TextView) convertView.findViewById(R.id.itemtv);
-            t.setText(Integer.toString(position));
+            if(position==0){
+                t.setText("addnew");
+            }else
+                t.setText(Integer.toString(position));
             return t;
         }
     }
