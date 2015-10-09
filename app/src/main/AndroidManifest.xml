@@ -20,6 +20,10 @@
             android:name=".ListAll"
             android:label="@string/title_activity_list_all" >
         </activity>
+        <activity
+            android:name=".Edit"
+            android:label="@string/title_activity_edit" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,8 +1,9 @@
 package me.hapened.hapened;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListAll extends ActionBarActivity {
+public class ListAll extends Activity {
 
     ListView main;
     @Override
@@ -41,9 +42,13 @@ public class ListAll extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
-                    //go to add new note here
+                    Intent i=new Intent(ListAll.this,Edit.class);
+                    //i.putExtra(Edit.TITLE_NAME,((TextView) view.findViewById(R.id.itemtv)).getText());
+                    startActivity(i);
                 }else{
-                    //open existing note here
+                    Intent i=new Intent(ListAll.this,Edit.class);
+                    i.putExtra(Edit.TITLE_NAME,((TextView) view.findViewById(R.id.itemtv)).getText());
+                    startActivity(i);
                 }
             }
         });
@@ -51,19 +56,14 @@ public class ListAll extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_list_all, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

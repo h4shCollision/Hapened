@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.hapened.hapened.Edit">
+    <item
+        android:id="@+id/done"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="text"
+        app:showAsAction="always" />
+</menu>

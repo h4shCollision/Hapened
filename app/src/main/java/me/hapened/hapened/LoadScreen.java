@@ -1,10 +1,10 @@
 package me.hapened.hapened;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
-public class LoadScreen extends ActionBarActivity {
+public class LoadScreen extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
