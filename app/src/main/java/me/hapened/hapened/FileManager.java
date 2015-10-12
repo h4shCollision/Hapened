@@ -1,5 +1,10 @@
 package me.hapened.hapened;
 
+import android.content.Context;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,17 +14,26 @@ import java.util.List;
 public class FileManager {
     private static FileManager instance;
     private List<String> titles=new ArrayList();
+    private static String fileName="filename.txt";
 
-    public static synchronized FileManager getInstance(){
+    public static synchronized FileManager getInstance(Context c){
         if (instance==null){
-            instance=new FileManager();
+            instance=new FileManager(c);
         }
         return instance;
     }
 
-    private FileManager(){
+    private FileManager(Context con){
+        FileInputStream fis;
         //get list
-        
+        try{
+            fis=con.openFileInput(fileName);
+
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+            new File(con.getFilesDir(),fileName);
+        }
+
     }
 
     public void getItem(int index){
