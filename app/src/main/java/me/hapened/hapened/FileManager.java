@@ -2,9 +2,11 @@ package me.hapened.hapened;
 
 import android.content.Context;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
 public class FileManager {
     private static FileManager instance;
     private List<String> titles=new ArrayList();
-    private static String fileName="filename.txt";
+    private static String fileName="filename.txt";//list of all files
 
     public static synchronized FileManager getInstance(Context c){
         if (instance==null){
@@ -28,6 +30,7 @@ public class FileManager {
         //get list
         try{
             fis=con.openFileInput(fileName);
+            BufferedReader br=new BufferedReader(new InputStreamReader(fis));
 
         }catch (FileNotFoundException e) {
             e.printStackTrace();
