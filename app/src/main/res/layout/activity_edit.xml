@@ -7,6 +7,13 @@
 
 
     <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTitle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:inputType="textMultiLine"
@@ -15,11 +22,4 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTitle"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 </RelativeLayout>
