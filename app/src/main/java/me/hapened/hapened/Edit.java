@@ -17,7 +17,7 @@ import java.util.Date;
 public class Edit extends Activity {
 
     public static String TITLE_NAME = "titlename";
-    private EditText editTitle,editContent;
+    private EditText editTitle, editContent;
     private ActionBar ab;
 
     @Override
@@ -30,11 +30,11 @@ public class Edit extends Activity {
         if (title == null) {
             title = (new SimpleDateFormat("yyyyMMdd")).format(new Date());
         }
-        ab=getActionBar();
+        ab = getActionBar();
         ab.setTitle(title);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        editTitle= (EditText) findViewById(R.id.editTitle);
+        editTitle = (EditText) findViewById(R.id.editTitle);
         editTitle.setText(title);
         editTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -52,7 +52,7 @@ public class Edit extends Activity {
                 titleChanged();
             }
         });
-        editContent= (EditText) findViewById(R.id.editText);
+        editContent = (EditText) findViewById(R.id.editText);
         editContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,6 +70,7 @@ public class Edit extends Activity {
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
@@ -79,15 +80,22 @@ public class Edit extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        //Toast.makeText(this,Integer.toString(id),Toast.LENGTH_SHORT);
+        if (id == R.id.home) {
+            finish();
+            return true;
+        }
 
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void titleChanged(){
+    private void titleChanged() {
         ab.setTitle(editTitle.getText());
         //System.out.println(editTitle.getText());
     }
