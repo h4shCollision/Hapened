@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,12 +36,12 @@ public class ListAll extends ActionBarActivity {
         main = (ListView) findViewById(R.id.mainlist);
         al = new ArrayList<>();
         al.add("ahj");
-        main.setAdapter(new CustomAdapter(this, R.id.itemtv, al));
+        //main.setAdapter(new CustomAdapter(this, R.id.itemtv, al));
         main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    Intent i=new Intent(ListAll.this,Edit.class);
+                if (position == 0) {
+                    Intent i = new Intent(ListAll.this, Edit.class);
                     FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0);
                     i.putExtra(Edit.INDEX, position);
                     ListAll.this.al.add(0, " ");
@@ -53,6 +54,12 @@ public class ListAll extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        main.setAdapter(new CustomAdapter(ListAll.this, R.id.itemtv, al));
     }
 
     @Override
