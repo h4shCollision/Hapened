@@ -3,8 +3,10 @@ package me.hapened.hapened;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 public class LoadScreen extends Activity {
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +23,16 @@ public class LoadScreen extends Activity {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 } finally {
-                    Intent i = new Intent(LoadScreen.this, ListAll.class);
-                    startActivity(i);
-                    LoadScreen.this.finish();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            while (!PasswordCheck.check(LoadScreen.this)) {
+                            }
+                            Intent i = new Intent(LoadScreen.this, ListAll.class);
+                            startActivity(i);
+                            LoadScreen.this.finish();
+                        }
+                    });
                 }
             }
         };
