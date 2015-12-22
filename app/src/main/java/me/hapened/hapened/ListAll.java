@@ -39,10 +39,11 @@ public class ListAll extends ActionBarActivity {
         main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent i = new Intent(ListAll.this, Edit.class);
-                    FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0, new Entry());
+                if(position==0){
+                    Intent i=new Intent(ListAll.this,Edit.class);
+                    FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0);
                     i.putExtra(Edit.INDEX, position);
+                    ListAll.this.al.add(0, " ");
                     startActivity(i);
                 } else {
                     Intent i = new Intent(ListAll.this, Edit.class);
@@ -89,9 +90,9 @@ public class ListAll extends ActionBarActivity {
                 convertView = vi.inflate(R.layout.listitem, null);
             }
             if (position != 0) {
-                convertView.setOnLongClickListener(new OLCL(position));
+                //convertView.setOnLongClickListener(new OLCL(position));
             } else {
-                convertView.setOnLongClickListener(null);
+                //convertView.setOnLongClickListener(null);
             }
             TextView t = (TextView) convertView.findViewById(R.id.itemtv);
             if (position == 0) {
@@ -129,9 +130,9 @@ public class ListAll extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-        Toast.makeText(this, "leaving", Toast.LENGTH_SHORT).show();
         super.onDestroy();
-        int prefIdx = PreferenceManager.getDefaultSharedPreferences(this).getInt("frequency", 1);
+        int prefIdx //= PreferenceManager.getDefaultSharedPreferences(this).getInt("frequency", 1);
+        =0;
         if (prefIdx != 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 18);

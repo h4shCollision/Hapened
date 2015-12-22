@@ -26,8 +26,8 @@ public class LoadScreen extends Activity {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            while (!PasswordCheck.check(LoadScreen.this)) {
-                            }
+                            //while (!PasswordCheck.check(LoadScreen.this)) {
+                            //}
                             Intent i = new Intent(LoadScreen.this, ListAll.class);
                             startActivity(i);
                             LoadScreen.this.finish();

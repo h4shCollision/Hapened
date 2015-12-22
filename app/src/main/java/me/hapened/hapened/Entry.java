@@ -28,7 +28,8 @@ public class Entry {
     }
 
     Entry(){
-
+        title="";
+        text="";
     }
 
 }

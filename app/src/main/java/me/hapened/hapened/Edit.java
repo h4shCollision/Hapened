@@ -38,6 +38,9 @@ public class Edit extends ActionBarActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         index=i.getIntExtra(INDEX,0);
         entry= FileManager.getInstance(this).getItem(this, index);
+        if(entry==null){
+            entry=new Entry();
+        }
         editTitle = (EditText) findViewById(R.id.editTitle);
         editTitle.setText(title);
         editTitle.addTextChangedListener(new TextWatcher() {
