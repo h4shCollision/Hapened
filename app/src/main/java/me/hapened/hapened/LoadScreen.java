@@ -17,7 +17,7 @@ public class LoadScreen extends Activity {
             public void run() {
                 try {
                     super.run();
-                    sleep(1000);  //Delay of 10 seconds
+                    FileManager.getInstance(LoadScreen.this);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 } finally {

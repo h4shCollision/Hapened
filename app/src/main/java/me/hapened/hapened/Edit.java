@@ -97,4 +97,10 @@ public class Edit extends ActionBarActivity {
     private void contentChanged() {
     }
 
+    /*@Override
+    protected void onStart() {
+        while(!PasswordCheck.check(this)){
+        }
+        super.onStart();
+    }*/
 }
