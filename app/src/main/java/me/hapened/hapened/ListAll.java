@@ -1,9 +1,9 @@
 package me.hapened.hapened;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListAll extends Activity {
+public class ListAll extends ActionBarActivity {
 
     ListView main;
     @Override
@@ -24,18 +24,7 @@ public class ListAll extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_all);
         main=(ListView)findViewById(R.id.mainlist);
-        ArrayList<String> al=new ArrayList<>(10);
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
-        al.add("ahj");
+        ArrayList<String> al=new ArrayList<>();
         al.add("ahj");
         main.setAdapter(new CustomAdapter(this, R.id.itemtv, al));
         main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,6 +54,7 @@ public class ListAll extends Activity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            SA.startSettings(this);
             return true;
         }
 
@@ -85,6 +75,7 @@ public class ListAll extends Activity {
                 LayoutInflater vi;
                 vi = LayoutInflater.from(getContext());
                 convertView = vi.inflate(R.layout.listitem, null);
+
             }
             TextView t= (TextView) convertView.findViewById(R.id.itemtv);
             if(position==0){

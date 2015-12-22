@@ -23,15 +23,21 @@
         <activity
             android:name=".Edit"
             android:label="@string/title_activity_edit"
-            android:parentActivityName="me.hapened.hapened.ListAll" >
+            android:parentActivityName=".ListAll" >
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="me.hapened.hapened.ListAll" />>
+                android:value="me.hapened.hapened.ListAll" />
+>
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:name=".SA"
+            android:label="@string/title_activity_s"
+            android:parentActivityName=".ListAll" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.hapened.hapened.ListAll" />
         </activity>
     </application>
 

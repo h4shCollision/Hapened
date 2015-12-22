@@ -1,9 +1,9 @@
 package me.hapened.hapened;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -14,7 +14,7 @@ import android.widget.EditText;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Edit extends Activity {
+public class Edit extends ActionBarActivity {
 
     public static String TITLE_NAME = "titlename";
     private EditText editTitle, editContent;
@@ -22,15 +22,15 @@ public class Edit extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         Intent i = getIntent();
         String title = i.getStringExtra(TITLE_NAME);
         if (title == null) {
             title = (new SimpleDateFormat("yyyyMMdd")).format(new Date());
         }
-        ab = getActionBar();
+        ab = getSupportActionBar();
         ab.setTitle(title);
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -80,15 +80,9 @@ public class Edit extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //Toast.makeText(this,Integer.toString(id),Toast.LENGTH_SHORT);
-        if (id == R.id.home) {
-            finish();
-            return true;
-        }
 
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
+            SA.startSettings(this);
             return true;
         }
 
