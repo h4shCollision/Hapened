@@ -18,11 +18,20 @@
         </activity>
         <activity
             android:name=".ListAll"
-            android:label="@string/title_activity_list_all" >
+            android:label="Happened" >
         </activity>
         <activity
             android:name=".Edit"
-            android:label="@string/title_activity_edit" >
+            android:label="@string/title_activity_edit"
+            android:parentActivityName="me.hapened.hapened.ListAll" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.hapened.hapened.ListAll" />>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 
