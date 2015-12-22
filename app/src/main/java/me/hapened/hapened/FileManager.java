@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class FileManager {
     private static FileManager instance;
-    private List<Integer> filenames=null;
-    private List<String> titles;
+    private List<Integer> filenames = null;
+    private List<String> titles = new ArrayList<>();
     private static String fileName = "filename.txt";//list of all files
     private int numEntries = 0;
     private File mainFile;
@@ -46,7 +46,7 @@ public class FileManager {
             e.printStackTrace();
         }
         try {
-            if (empty==true) {
+            if (empty == true) {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile));
                 writer.write(numEntries);
                 filenames = new ArrayList<>(numEntries);
@@ -73,43 +73,41 @@ public class FileManager {
 
     // get the ith entry
     public Entry getItem(Context con, int index) {
+        System.out.println(index);
         boolean empty = true;
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
-            if (br.readLine() == null) {
-                empty = true;
-            } else {
-                empty = false;
-            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (empty == true) {
-            return null;
-        } else {
-            String text = null;
-            String title = null;
-            BufferedReader br = null;
-            try {
-                br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
-                title = br.readLine();
-                String line = null;
-                text = null;
-                while ((line = br.readLine()) != null) {
-                    text = text + line;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Entry targetEntry = new Entry(title, text);
-            return targetEntry;
+        String text = null;
+        String title = null;
+        BufferedReader br = null;
+        try {
+            System.out.println("gti"+index);
+            System.out.println("gtfn"+filenames.get(index).toString());
+            br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+        try {
+            title = br.readLine();
+            System.out.println("title"+title);
+            String line = null;
+            text = "";
+            while ((line = br.readLine()) != null) {
+                text+="\n"+ line;
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(title);
+        Entry targetEntry = new Entry(title, text);
+        return targetEntry;
+
     }
 
     public void addItem(Context con, int index) {
@@ -117,6 +115,7 @@ public class FileManager {
         int num = filenames.get(0) + 1;
         File newFile = new File(con.getFilesDir(), Integer.toString(num));
         filenames.add(0, num);
+        titles.add("");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile));
             writer.write(numEntries + 1);
@@ -132,6 +131,7 @@ public class FileManager {
     public void deleteItem(Context con, int index) {
         con.deleteFile(Integer.toString(filenames.get(index)));
         filenames.remove(index);
+        titles.remove(index);
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile));
             writer.write(numEntries - 1);
@@ -145,10 +145,13 @@ public class FileManager {
 
 
     public void setItem(Context con, int index, Entry newEntry) {
+        titles.set(index, newEntry.getTitle());
         try {
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File(con.getFilesDir(), filenames.get(index).toString())));
-            writer.write(newEntry.getTitle());
+            writer.write(newEntry.getTitle()+"\n");
             writer.write(newEntry.getText());
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

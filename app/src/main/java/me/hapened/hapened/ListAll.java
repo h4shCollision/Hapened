@@ -23,49 +23,60 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ListAll extends ActionBarActivity {
 
     ListView main;
     private final long[] INTERVALS = {0, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 30,AlarmManager.INTERVAL_DAY * 365};
-    ArrayList<String> al;
+    List<String> al;CustomAdapter ca;
+    private int ind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_all);
         main = (ListView) findViewById(R.id.mainlist);
-        al = new ArrayList<>();
-        al.add("ahj");
-        //main.setAdapter(new CustomAdapter(this, R.id.itemtv, al));
+        al=new ArrayList<>(FileManager.getInstance(this).getTitles(this));
+        /*if (al==null){
+            al=new ArrayList<>();
+        }*/
+        al.add(0, "ahs");
+        ind=-1;
+        ca=new CustomAdapter(this, R.id.itemtv, al);
+        main.setAdapter(ca);
         main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    Intent i = new Intent(ListAll.this, Edit.class);
+                    System.out.println("0asdfa");
                     FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0);
+                    ListAll.this.al.add(1, "");
+                    ca.notifyDataSetChanged();
+                    Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position);
-                    ListAll.this.al.add(0, " ");
                     startActivity(i);
                 } else {
+                    System.out.println("pos"+position);
+                    ind=position;
                     Intent i = new Intent(ListAll.this, Edit.class);
-                    i.putExtra(Edit.TITLE_NAME, ((TextView) view.findViewById(R.id.itemtv)).getText());
-                    i.putExtra(Edit.INDEX, position);
+                    i.putExtra(Edit.INDEX, position-1);
                     startActivity(i);
                 }
             }
         });
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        main.setAdapter(new CustomAdapter(ListAll.this, R.id.itemtv, al));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list_all, menu);
         return true;
+    }
+
+    public void onResume(){
+        if(ind>=0){
+            System.out.println("asg");
+            al.set(ind,FileManager.getInstance(this).getItem(this,ind-1).getTitle());
+        }
+        super.onResume();
     }
 
     @Override
@@ -82,9 +93,9 @@ public class ListAll extends ActionBarActivity {
 
     public class CustomAdapter extends ArrayAdapter<String> {
 
-        ArrayList<String> titles;
+        List<String> titles;
 
-        public CustomAdapter(Context context, int resource, ArrayList<String> objects) {
+        public CustomAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
             titles = objects;
         }
@@ -105,7 +116,7 @@ public class ListAll extends ActionBarActivity {
             if (position == 0) {
                 t.setText("addnew");
             } else
-                t.setText(Integer.toString(position));
+                t.setText(titles.get(position));
             return t;
         }
 
@@ -125,8 +136,9 @@ public class ListAll extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 FileManager.getInstance(ListAll.this).deleteItem(ListAll.this,position);
-                                al.remove(position+1);
-                            }
+                                al.remove(position + 1);
+                                ca.notifyDataSetChanged();
+                                }
                         })
                         .setNegativeButton("No", null)
                         .show();

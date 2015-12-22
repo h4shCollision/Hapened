@@ -29,18 +29,16 @@ public class Edit extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         Intent i = getIntent();
-        String title = i.getStringExtra(TITLE_NAME);
+        index=i.getIntExtra(INDEX,0);
+        System.out.println("edit"+index);
+        entry= FileManager.getInstance(this).getItem(this, index);
+        String title = entry.getTitle();
         if (title == null) {
             title = (new SimpleDateFormat("yyyyMMdd")).format(new Date());
         }
         ab = getSupportActionBar();
         ab.setTitle(title);
         ab.setDisplayHomeAsUpEnabled(true);
-        index=i.getIntExtra(INDEX,0);
-        entry= FileManager.getInstance(this).getItem(this, index);
-        if(entry==null){
-            entry=new Entry();
-        }
         editTitle = (EditText) findViewById(R.id.editTitle);
         editTitle.setText(title);
         editTitle.addTextChangedListener(new TextWatcher() {
@@ -76,6 +74,7 @@ public class Edit extends ActionBarActivity {
                 contentChanged();
             }
         });
+        editContent.setText(entry.getText());
     }
 
     @Override
