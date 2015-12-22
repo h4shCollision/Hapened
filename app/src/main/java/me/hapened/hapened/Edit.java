@@ -17,8 +17,11 @@ import java.util.Date;
 public class Edit extends ActionBarActivity {
 
     public static String TITLE_NAME = "titlename";
+    static final String INDEX ="I";
     private EditText editTitle, editContent;
     private ActionBar ab;
+    private int index;
+    private Entry entry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,8 @@ public class Edit extends ActionBarActivity {
         ab = getSupportActionBar();
         ab.setTitle(title);
         ab.setDisplayHomeAsUpEnabled(true);
-
+        index=i.getIntExtra(INDEX,0);
+        entry= FileManager.getInstance(this).getItem(this, index);
         editTitle = (EditText) findViewById(R.id.editTitle);
         editTitle.setText(title);
         editTitle.addTextChangedListener(new TextWatcher() {
@@ -91,10 +95,15 @@ public class Edit extends ActionBarActivity {
 
     private void titleChanged() {
         ab.setTitle(editTitle.getText());
-        //System.out.println(editTitle.getText());
+        entry.setTitle(editTitle.getText().toString());
+        helper();
     }
 
+    private void helper(){FileManager.getInstance(this).setItem(this,index,entry);}
+
     private void contentChanged() {
+        entry.setText(editContent.getText().toString());
+        helper();
     }
 
     /*@Override

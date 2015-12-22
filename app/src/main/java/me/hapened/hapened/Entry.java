@@ -27,4 +27,8 @@ public class Entry {
         this.title = title;
     }
 
+    Entry(){
+
+    }
+
 }

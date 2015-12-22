@@ -32,11 +32,13 @@ public class ListAll extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
                     Intent i=new Intent(ListAll.this,Edit.class);
-                    //i.putExtra(Edit.TITLE_NAME,((TextView) view.findViewById(R.id.itemtv)).getText());
+                    FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0, new Entry());
+                    i.putExtra(Edit.INDEX,position);
                     startActivity(i);
                 }else{
                     Intent i=new Intent(ListAll.this,Edit.class);
                     i.putExtra(Edit.TITLE_NAME,((TextView) view.findViewById(R.id.itemtv)).getText());
+                    i.putExtra(Edit.INDEX,position);
                     startActivity(i);
                 }
             }
