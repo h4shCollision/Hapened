@@ -26,7 +26,7 @@ import java.util.Calendar;
 public class ListAll extends ActionBarActivity {
 
     ListView main;
-    private final long[] INTERVALS = {0, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 30, AlarmManager.INTERVAL_DAY * 365};
+    private final long[] INTERVALS = {0, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 30,AlarmManager.INTERVAL_DAY * 365};
     ArrayList<String> al;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
