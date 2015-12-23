@@ -43,6 +43,6 @@
     </application>
 
     <uses-sdk android:minSdkVersion="15"
-        android:targetSdkVersion="21"
-        android:maxSdkVersion="21" />
+        android:targetSdkVersion="23"
+        android:maxSdkVersion="23" />
 </manifest>
