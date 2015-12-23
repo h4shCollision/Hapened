@@ -43,13 +43,13 @@ public class FileManager {
                 BufferedReader br = new BufferedReader(new FileReader(mainFile));
                 numEntries = Integer.parseInt(br.readLine());
                 filenames = new ArrayList<>(numEntries);
-                filenames.add(0);
                 System.out.println("nume" + numEntries);
                 for (int i = 0; i < filenames.size(); i++) {
                     filenames.set(i, Integer.parseInt(br.readLine()));
                     BufferedReader individualBr = new BufferedReader(new FileReader((new File(con.getFilesDir(), filenames.get(i).toString()))));
                     titles.add(individualBr.readLine());
                 }
+                filenames.add(0,0);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -73,10 +73,12 @@ public class FileManager {
             text = "";
             while ((line = br.readLine()) != null) {
                 text += line + "\n";
-                //.out.println(line);
             }
             if (text.length() >= 1) {
                 text = text.substring(0, text.length() - 1);
+            }
+            if(title==null){
+                title="";
             }
         } catch (IOException e) {
             e.printStackTrace();

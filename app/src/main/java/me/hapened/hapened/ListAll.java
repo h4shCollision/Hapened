@@ -114,7 +114,7 @@ public class ListAll extends ActionBarActivity {
                 t.setText("addnew");
             } else
                 t.setText(titles.get(position));
-            return t;
+            return convertView;
         }
 
         class OLCL implements View.OnLongClickListener {
@@ -147,14 +147,14 @@ public class ListAll extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        int prefIdx //= PreferenceManager.getDefaultSharedPreferences(this).getInt("frequency", 1);
-        =0;
+        int prefIdx = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
+        //=0;
         System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
         if (prefIdx != 0) {
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 18);
-            calendar.set(Calendar.MINUTE, 30);
             calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MINUTE, 20);
+            calendar.set(Calendar.HOUR_OF_DAY, 12);
             Intent intent1 = new Intent(this, Notify.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
