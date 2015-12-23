@@ -16,22 +16,26 @@ public class PasswordCheck {
     //return true if password matches, else false
     static boolean check(Context c){
         result="";
-        final AlertDialog.Builder alert = new AlertDialog.Builder(c);
-        final EditText input = new EditText(c);
+        AlertDialog.Builder alert = new AlertDialog.Builder(c);
+        EditText input = new EditText(c);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
         alert.setView(input);    //edit text added to alert
         alert.setTitle("Password Required");
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                result = input.getText().toString();
-            }
-        });
+        alert.setPositiveButton("OK", new cl(input));
         AlertDialog a = alert.create();
         a.show();
         String pw= PreferenceManager.getDefaultSharedPreferences(c).getString("password","");
-        a.dismiss();
+        //a.dismiss();
         return pw.equals(result);
+    }
+    static class cl implements DialogInterface.OnClickListener{
+        EditText e;
+        cl(EditText et){
+            e=et;
+        }@Override
+         public void onClick(DialogInterface dialog, int which) {
+            result = e.getText().toString();
+        }
     }
 }
