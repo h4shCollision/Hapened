@@ -21,15 +21,17 @@ public class PasswordCheck {
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
         alert.setView(input);    //edit text added to alert
+        alert.setTitle("Password Required");
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 result = input.getText().toString();
             }
         });
-        alert.setTitle("Password Required");   //title
-        alert.show();
+        AlertDialog a = alert.create();
+        a.show();
         String pw= PreferenceManager.getDefaultSharedPreferences(c).getString("password","");
+        a.dismiss();
         return pw.equals(result);
     }
 }

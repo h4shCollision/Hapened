@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,9 +35,6 @@ public class ListAll extends ActionBarActivity {
         setContentView(R.layout.activity_list_all);
         main = (ListView) findViewById(R.id.mainlist);
         al=new ArrayList<>(FileManager.getInstance(this).getTitles(this));
-        /*if (al==null){
-            al=new ArrayList<>();
-        }*/
         al.add(0, "ahs");
         ind=-1;
         ca=new CustomAdapter(this, R.id.itemtv, al);
@@ -48,6 +43,7 @@ public class ListAll extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
+                    ind=1;
                     System.out.println("0asdfa");
                     FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0);
                     ListAll.this.al.add(1, "");
@@ -75,6 +71,7 @@ public class ListAll extends ActionBarActivity {
         if(ind>=0){
             System.out.println("asg");
             al.set(ind,FileManager.getInstance(this).getItem(this,ind-1).getTitle());
+            ca.notifyDataSetChanged();
         }
         super.onResume();
     }
@@ -152,6 +149,7 @@ public class ListAll extends ActionBarActivity {
         super.onDestroy();
         int prefIdx //= PreferenceManager.getDefaultSharedPreferences(this).getInt("frequency", 1);
         =0;
+        System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
         if (prefIdx != 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 18);

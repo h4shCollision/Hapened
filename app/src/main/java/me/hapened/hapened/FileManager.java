@@ -3,12 +3,12 @@ package me.hapened.hapened;
 import android.content.Context;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,74 +32,51 @@ public class FileManager {
 
     private FileManager(Context con) {
         mainFile = new File(con.getFilesDir(), fileName);
-        boolean empty = true;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(mainFile));
-            if (br.readLine() == null) {
-                empty = true;
-            } else {
-                empty = false;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (empty == true) {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile));
-                writer.write(numEntries);
-                filenames = new ArrayList<>(numEntries);
+            if (mainFile.createNewFile()) {
+                PrintWriter writer = new PrintWriter(new FileWriter(mainFile));
+                writer.println(0);
+                filenames = new ArrayList<>();
                 filenames.add(0);
-
+                writer.close();
             } else {
                 BufferedReader br = new BufferedReader(new FileReader(mainFile));
                 numEntries = Integer.parseInt(br.readLine());
-                //filenames = new ArrayList<>(numEntries);
-                for (int i = 0; i < numEntries; i++) {
+                filenames = new ArrayList<>(numEntries);
+                filenames.add(0);
+                System.out.println("nume" + numEntries);
+                for (int i = 0; i < filenames.size(); i++) {
                     filenames.set(i, Integer.parseInt(br.readLine()));
                     BufferedReader individualBr = new BufferedReader(new FileReader((new File(con.getFilesDir(), filenames.get(i).toString()))));
-                    titles.add(br.readLine());
+                    titles.add(individualBr.readLine());
                 }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            new File(con.getFilesDir(), fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     // get the ith entry
     public Entry getItem(Context con, int index) {
+        String text = "", title = "";
         System.out.println(index);
-        boolean empty = true;
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String text = null;
-        String title = null;
-        BufferedReader br = null;
-        try {
-            System.out.println("gti"+index);
-            System.out.println("gtfn"+filenames.get(index).toString());
+            System.out.println("gti" + index);
+            System.out.println("gtfn" + filenames.get(index).toString());
             br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
             title = br.readLine();
-            System.out.println("title"+title);
+            System.out.println("title" + title);
             String line = null;
             text = "";
             while ((line = br.readLine()) != null) {
-                text+="\n"+ line;
-                System.out.println(line);
+                text += line + "\n";
+                //.out.println(line);
+            }
+            if (text.length() >= 1) {
+                text = text.substring(0, text.length() - 1);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,21 +84,23 @@ public class FileManager {
         System.out.println(title);
         Entry targetEntry = new Entry(title, text);
         return targetEntry;
-
     }
 
     public void addItem(Context con, int index) {
 
         int num = filenames.get(0) + 1;
         File newFile = new File(con.getFilesDir(), Integer.toString(num));
-        filenames.add(0, num);
-        titles.add("");
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile));
-            writer.write(numEntries + 1);
-            for (int i = 0; i < filenames.size(); i++) {
-                writer.write(filenames.get(i));
+            newFile.createNewFile();
+            filenames.add(0, num);
+            titles.add(0, "");
+            numEntries += 1;
+            PrintWriter writer = new PrintWriter(new FileWriter(mainFile));
+            writer.println(numEntries);
+            for (int i = 1; i < filenames.size(); i++) {
+                writer.println(filenames.get(i));
             }
+            writer.close();
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
@@ -132,12 +111,14 @@ public class FileManager {
         con.deleteFile(Integer.toString(filenames.get(index)));
         filenames.remove(index);
         titles.remove(index);
+        numEntries -= 1;
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(mainFile));
-            writer.write(numEntries - 1);
-            for (int i = 0; i < filenames.size(); i++) {
-                writer.write(filenames.get(i));
+            PrintWriter writer = new PrintWriter(mainFile);
+            writer.println(numEntries);
+            for (int i = 1; i < filenames.size(); i++) {
+                writer.println(filenames.get(i));
             }
+            writer.close();
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
@@ -147,10 +128,9 @@ public class FileManager {
     public void setItem(Context con, int index, Entry newEntry) {
         titles.set(index, newEntry.getTitle());
         try {
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(con.getFilesDir(), filenames.get(index).toString())));
-            writer.write(newEntry.getTitle()+"\n");
-            writer.write(newEntry.getText());
+            PrintWriter writer = new PrintWriter(new File(con.getFilesDir(), filenames.get(index).toString()));
+            writer.println(newEntry.getTitle());
+            writer.println(newEntry.getText());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

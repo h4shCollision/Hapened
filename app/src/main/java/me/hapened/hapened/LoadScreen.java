@@ -12,31 +12,42 @@ public class LoadScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_screen);
-
-        Thread welcomeThread = new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    super.run();
-                    FileManager.getInstance(LoadScreen.this);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                } finally {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //while (!PasswordCheck.check(LoadScreen.this)) {
-                            //}
-                            Intent i = new Intent(LoadScreen.this, ListAll.class);
-                            startActivity(i);
-                            LoadScreen.this.finish();
-                        }
-                    });
-                }
+        /*while (true){
+            if (PasswordCheck.check(LoadScreen.this)){
+                break;
             }
-        };
-        welcomeThread.start();
+        }*/
+        if (PasswordCheck.check(LoadScreen.this) == true) {
+
+            Thread welcomeThread = new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        FileManager.getInstance(LoadScreen.this);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    } finally {
+                        //mHandler.post(new Runnable() {
+                        //@Override
+                        //public void run() {
+                        Intent i = new Intent(LoadScreen.this, ListAll.class);
+                        startActivity(i);
+                        LoadScreen.this.finish();
+                        //}
+                        //});
+                    }
+                }
+            };
+            welcomeThread.start();
+        }
+        /*ImageView iv= (ImageView) findViewById(R.id.imageView);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PasswordCheck.check(LoadScreen.this);
+            }
+        });*/
     }
 /*
     @Override
