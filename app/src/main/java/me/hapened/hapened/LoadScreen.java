@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.ImageView;
 
 public class LoadScreen extends Activity {
     Handler mHandler = new Handler();
@@ -12,13 +14,7 @@ public class LoadScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_screen);
-        /*while (true){
-            if (PasswordCheck.check(LoadScreen.this)){
-                break;
-            }
-        }*/
-        if (PasswordCheck.check(LoadScreen.this) == true) {
-
+        if (PasswordCheck.check(LoadScreen.this) == false) {
             Thread welcomeThread = new Thread() {
 
                 @Override

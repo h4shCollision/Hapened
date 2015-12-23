@@ -24,7 +24,7 @@ public class PasswordCheck {
         alert.setTitle("Password Required");
         alert.setPositiveButton("OK", new cl(input));
         AlertDialog a = alert.create();
-        a.show();
+        a.show();//a.dismiss();
         String pw= PreferenceManager.getDefaultSharedPreferences(c).getString("password","");
         //a.dismiss();
         return pw.equals(result);
