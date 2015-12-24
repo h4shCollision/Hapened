@@ -13,12 +13,12 @@ import android.widget.EditText;
 
 public class LoadScreen extends Activity {
     Handler mHandler = new Handler();
+    private boolean loaded = false, passwordGood = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_screen);
-        PasswordCheck.check(this);
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pswd", false)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             final EditText input = new EditText(this);
@@ -30,17 +30,20 @@ public class LoadScreen extends Activity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String pw = PreferenceManager.getDefaultSharedPreferences(LoadScreen.this).getString("password", "");
-                    //System.out.println("result" + result);
                     if (pw.equals(input.getText().toString())) {
-                        load();
+                        passwordGood = true;
+                        if (loaded) {
+                            startNext();
+                        }
                     }
                 }
             });
             AlertDialog a = alert.create();
-            a.show();//a.dismiss();
+            a.show();
         } else {
-            load();
+            passwordGood = true;
         }
+        load();
     }
 
     private void load() {
@@ -53,17 +56,20 @@ public class LoadScreen extends Activity {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 } finally {
-                    //mHandler.post(new Runnable() {
-                    //@Override
-                    //public void run() {
-                    Intent i = new Intent(LoadScreen.this, ListAll.class);
-                    startActivity(i);
-                    finish();
-                    //}
-                    //});
+                    if (passwordGood) {
+                        startNext();
+                    } else {
+                        loaded = true;
+                    }
                 }
             }
         };
         welcomeThread.start();
+    }
+
+    private void startNext() {
+        Intent i = new Intent(LoadScreen.this, ListAll.class);
+        startActivity(i);
+        finish();
     }
 }

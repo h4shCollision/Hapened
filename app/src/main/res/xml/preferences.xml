@@ -12,7 +12,7 @@
         android:inputType="textPassword"
         android:dependency="pswd"
         android:selectable="true"/>
-    <Preference android:layout= "@layout/preference_divider"/>
+    <!--<Preference android:layout= "@layout/preference_divider"/>-->
     <ListPreference
         android:title="Reminders"
         android:summary="Select ..."
