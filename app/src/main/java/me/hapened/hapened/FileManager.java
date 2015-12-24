@@ -99,7 +99,7 @@ public class FileManager {
             numEntries += 1;
             PrintWriter writer = new PrintWriter(new FileWriter(mainFile));
             writer.println(numEntries);
-            for (int i = 1; i < filenames.size(); i++) {
+            for (int i = 0; i < filenames.size()-1; i++) {
                 writer.println(filenames.get(i));
             }
             writer.close();
@@ -117,7 +117,7 @@ public class FileManager {
         try {
             PrintWriter writer = new PrintWriter(mainFile);
             writer.println(numEntries);
-            for (int i = 1; i < filenames.size(); i++) {
+            for (int i = 0; i < filenames.size()-1; i++) {
                 writer.println(filenames.get(i));
             }
             writer.close();

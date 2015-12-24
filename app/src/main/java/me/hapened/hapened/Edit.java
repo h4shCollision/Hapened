@@ -96,7 +96,7 @@ public class Edit extends ActionBarActivity {
     }
 
     private void titleChanged() {
-        ab.setTitle(editTitle.getText());
+        ab.setTitle(editTitle.getText().toString());
         entry.setTitle(editTitle.getText().toString());
         helper();
     }
