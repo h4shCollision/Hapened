@@ -1,11 +1,13 @@
 package me.hapened.hapened;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -19,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class ListAll extends ActionBarActivity {
 
     ListView main;
     private final long[] INTERVALS = {0, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 30, AlarmManager.INTERVAL_DAY * 365};
-    List<String> al;
     CustomAdapter ca;
     private int ind;
 
@@ -36,10 +36,8 @@ public class ListAll extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_all);
         main = (ListView) findViewById(R.id.mainlist);
-        al = new ArrayList<>(FileManager.getInstance(this).getTitles(this));
-        al.add(0, "ahs");
         ind = -1;
-        ca = new CustomAdapter(this, R.id.itemtv, al);
+        ca = new CustomAdapter(this, R.id.itemtv, FileManager.getInstance(this).getTitles(this));
         main.setAdapter(ca);
         main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -47,15 +45,11 @@ public class ListAll extends ActionBarActivity {
                 System.out.println("listclick");
                 if (position == 0) {
                     ind = 1;
-                    System.out.println("0asdfa");
                     FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0);
-                    ListAll.this.al.add(1, "");
-                    ca.notifyDataSetChanged();
                     Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position);
                     startActivity(i);
                 } else {
-                    System.out.println("pos" + position);
                     ind = position;
                     Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position - 1);
@@ -75,7 +69,6 @@ public class ListAll extends ActionBarActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     FileManager.getInstance(ListAll.this).deleteItem(ListAll.this, position - 1);
-                                    al.remove(position);
                                     ca.notifyDataSetChanged();
                                 }
                             })
@@ -95,8 +88,6 @@ public class ListAll extends ActionBarActivity {
 
     public void onResume() {
         if (ind >= 0) {
-            System.out.println("asg");
-            al.set(ind, FileManager.getInstance(this).getItem(this, ind - 1).getTitle());
             ca.notifyDataSetChanged();
         }
         super.onResume();
@@ -117,28 +108,37 @@ public class ListAll extends ActionBarActivity {
     public class CustomAdapter extends ArrayAdapter<String> {
 
         List<String> titles;
+        private View addNew;
 
         public CustomAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
             titles = objects;
+            addNew =LayoutInflater.from(getContext()).inflate(R.layout.addnew, null);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater vi;
-                vi = LayoutInflater.from(getContext());
+            if(position==0){
+                return addNew;
+            }
+            if (convertView == null||convertView==addNew) {
+                LayoutInflater vi = LayoutInflater.from(getContext());
                 convertView = vi.inflate(R.layout.listitem, null);
             }
             TextView t = (TextView) convertView.findViewById(R.id.itemtv);
-            if (position == 0) {
-                t.setText("addnew");
-            } else
-                t.setText(titles.get(position));
+            t.setText(titles.get(position-1));
             return convertView;
         }
+
+        @Override
+        public int getCount() {
+            return titles.size()+1;
+        }
+
+
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDestroy() {
         int prefIdx = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
@@ -151,11 +151,14 @@ public class ListAll extends ActionBarActivity {
         am.cancel(pendingIntent);
 
         if (prefIdx != 0) {
+            System.out.println("alarm");
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 12);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000, pendingIntent);
+            //calendar.set(Calendar.HOUR_OF_DAY, 13);
+            //calendar.set(Calendar.MINUTE, 40);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
         }
+
         super.onDestroy();
     }
 }

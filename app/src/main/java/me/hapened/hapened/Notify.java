@@ -14,7 +14,7 @@ public class Notify extends BroadcastReceiver {
     private int uniqueID=3657554;
     @Override
     public void onReceive(Context context, Intent intent) {
-        //System.out.println("asdfasdfasdfasdf");
+        System.out.println("asdfasdfasdfasdf");
         //Toast.makeText(context,"worked",Toast.LENGTH_LONG).show();
         NotificationCompat.Builder n=new NotificationCompat.Builder(context);
         n.setAutoCancel(true);

@@ -5,14 +5,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 
 public class LoadScreen extends Activity {
-    Handler mHandler = new Handler();
     private boolean loaded = false, passwordGood = false;
 
     @Override
