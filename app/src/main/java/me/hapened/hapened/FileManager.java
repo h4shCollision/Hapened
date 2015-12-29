@@ -69,9 +69,6 @@ public class FileManager {
         String text = "", title = "";
         System.out.println(index);
         try {
-            //BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
-            //System.out.println("gti" + index);
-            //System.out.println("gtfn" + filenames.get(index).toString());
             BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
             title = br.readLine();
             System.out.println("title" + title);
@@ -120,10 +117,10 @@ public class FileManager {
 
 
     public void setItem(int index, Entry newEntry) {
-        if(newEntry==null||newEntry.isEmpty()){
+        /*if(newEntry==null||newEntry.isEmpty()){
             deleteItem(index);
             return;
-        }
+        }*/
         titles.set(index, newEntry.getTitle());
         try {
             PrintWriter writer = new PrintWriter(new File(con.getFilesDir(), filenames.get(index).toString()));

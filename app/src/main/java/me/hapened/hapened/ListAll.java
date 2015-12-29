@@ -30,13 +30,12 @@ public class ListAll extends ActionBarActivity {
     ListView main;
     private final long[] INTERVALS = {0, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 30, AlarmManager.INTERVAL_DAY * 365};
     CustomAdapter ca;
-    private int ind;
+    private static int ind=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_all);
-        ind = -1;
         main = (ListView) findViewById(R.id.mainlist);
         ca = new CustomAdapter(this, R.id.itemtv, FileManager.getInstance().getTitles());
         main.setAdapter(ca);
@@ -53,7 +52,7 @@ public class ListAll extends ActionBarActivity {
                 } else {
                     ind = position - 1;
                     Intent i = new Intent(ListAll.this, Edit.class);
-                    i.putExtra(Edit.INDEX, position - 1);
+                    i.putExtra(Edit.INDEX, ind);
                     startActivity(i);
                 }
             }
@@ -88,7 +87,9 @@ public class ListAll extends ActionBarActivity {
         return true;
     }
 
+    @Override
     public void onResume() {
+        System.out.println("ind"+ind);
         if (ind >= 0) {
             FileManager.getInstance().checkEmpty(ind);
             ca.notifyDataSetChanged();

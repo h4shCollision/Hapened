@@ -108,16 +108,4 @@ public class Edit extends ActionBarActivity {
         helper();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    /*@Override
-    protected void onResume() {
-        while(!PasswordCheck.check(this)){
-            //
-        }
-        super.onResume();
-    }*/
 }
