@@ -38,7 +38,7 @@ public class ListAll extends ActionBarActivity {
         setContentView(R.layout.activity_list_all);
         ind = -1;
         main = (ListView) findViewById(R.id.mainlist);
-        ca = new CustomAdapter(this, R.id.itemtv, FileManager.getInstance(this).getTitles(this));
+        ca = new CustomAdapter(this, R.id.itemtv, FileManager.getInstance().getTitles());
         main.setAdapter(ca);
         main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -46,7 +46,7 @@ public class ListAll extends ActionBarActivity {
                 System.out.println("listclick");
                 if (position == 0) {
                     ind = 0;
-                    FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0);
+                    FileManager.getInstance().addItem();
                     Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position);
                     startActivity(i);
@@ -69,7 +69,7 @@ public class ListAll extends ActionBarActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    FileManager.getInstance(ListAll.this).deleteItem(ListAll.this, position - 1);
+                                    FileManager.getInstance().deleteItem(position - 1);
                                     ca.notifyDataSetChanged();
                                 }
                             })
@@ -90,7 +90,7 @@ public class ListAll extends ActionBarActivity {
 
     public void onResume() {
         if (ind >= 0) {
-            FileManager.getInstance(this).checkEmpty(this, ind);
+            FileManager.getInstance().checkEmpty(ind);
             ca.notifyDataSetChanged();
         }
         super.onResume();
@@ -146,7 +146,7 @@ public class ListAll extends ActionBarActivity {
     protected void onDestroy() {
         int prefIdx = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
         //=0;
-        System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
+        System.out.println("freq"+PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
 
         Intent intent1 = new Intent(this, Notify.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);

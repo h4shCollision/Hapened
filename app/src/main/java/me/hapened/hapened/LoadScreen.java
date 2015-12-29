@@ -50,7 +50,7 @@ public class LoadScreen extends Activity {
             @Override
             public void run() {
                 try {
-                    FileManager.getInstance(LoadScreen.this);
+                    FileManager.setInstance(LoadScreen.this);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 } finally {

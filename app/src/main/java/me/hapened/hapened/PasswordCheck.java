@@ -1,14 +1,5 @@
 package me.hapened.hapened;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.preference.PreferenceManager;
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
-import android.widget.EditText;
-
 /**
  * Created by Lucy on 2015-12-21.
  */
@@ -16,7 +7,7 @@ public class PasswordCheck {
     private static String result;
 
     //return true if password matches, else false
-    static void check(final Context c) {
+   /* static void check(final Context c) {
         if (PreferenceManager.getDefaultSharedPreferences(c).getBoolean("pswd", false)) {
             result = "";
             AlertDialog.Builder alert = new AlertDialog.Builder(c);
@@ -76,5 +67,5 @@ public class PasswordCheck {
         public void onClick(DialogInterface dialog, int which) {
             result = e.getText().toString();
         }
-    }
+    }*/
 }

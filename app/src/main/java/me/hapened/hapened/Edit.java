@@ -31,7 +31,7 @@ public class Edit extends ActionBarActivity {
         Intent i = getIntent();
         index=i.getIntExtra(INDEX,0);
         System.out.println("edit"+index);
-        entry= FileManager.getInstance(this).getItem(this, index);
+        entry= FileManager.getInstance().getItem(index);
         String title = entry.getTitle();
         if (title == null) {
             title = (new SimpleDateFormat("yyyyMMdd")).format(new Date());
@@ -101,7 +101,7 @@ public class Edit extends ActionBarActivity {
         helper();
     }
 
-    private void helper(){FileManager.getInstance(this).setItem(this,index,entry);}
+    private void helper(){FileManager.getInstance().setItem(index,entry);}
 
     private void contentChanged() {
         entry.setText(editContent.getText().toString());
