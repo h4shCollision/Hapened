@@ -1,6 +1,5 @@
 package me.hapened.hapened;
 
-import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -8,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -142,12 +140,11 @@ public class ListAll extends ActionBarActivity {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDestroy() {
         int prefIdx = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
         //=0;
-        System.out.println("freq"+PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
+        System.out.println("freq"+prefIdx);
 
         Intent intent1 = new Intent(this, Notify.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -158,9 +155,9 @@ public class ListAll extends ActionBarActivity {
             System.out.println("alarm");
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            //calendar.set(Calendar.HOUR_OF_DAY, 13);
-            //calendar.set(Calendar.MINUTE, 40);
+            calendar.set(Calendar.MINUTE, 20);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+            System.out.println(calendar.getTimeInMillis()-System.currentTimeMillis());
         }
 
         super.onDestroy();
