@@ -134,6 +134,12 @@ public class FileManager {
             writer.println(newEntry.getTitle());
             writer.println(newEntry.getText());
             writer.close();
+            writer = new PrintWriter(mainFile);
+            writer.println(numEntries);
+            for (int i = 0; i < filenames.size() - 1; i++) {
+                writer.println(filenames.get(i));
+            }
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
