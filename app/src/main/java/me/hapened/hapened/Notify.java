@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
  * Created by Lucy on 2015-12-22.
  */
 public class Notify extends BroadcastReceiver {
-    private int uniqueID=3657554;
+    public static final int uniqueID=3657554;
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("asdfasdfasdfasdf");

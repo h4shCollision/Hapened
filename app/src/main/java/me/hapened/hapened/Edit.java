@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class Edit extends ActionBarActivity {
 
-    public static String TITLE_NAME = "titlename";
+    public static String PREVIOUS_ACTIVITY = "pa";
     static final String INDEX ="I";
     private EditText editTitle, editContent;
     private ActionBar ab;
@@ -106,6 +106,11 @@ public class Edit extends ActionBarActivity {
     private void contentChanged() {
         entry.setText(editContent.getText().toString());
         helper();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     /*@Override

@@ -3,6 +3,7 @@ package me.hapened.hapened;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,8 +36,8 @@ public class ListAll extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_all);
-        main = (ListView) findViewById(R.id.mainlist);
         ind = -1;
+        main = (ListView) findViewById(R.id.mainlist);
         ca = new CustomAdapter(this, R.id.itemtv, FileManager.getInstance(this).getTitles(this));
         main.setAdapter(ca);
         main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,13 +45,13 @@ public class ListAll extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("listclick");
                 if (position == 0) {
-                    ind = 1;
+                    ind = 0;
                     FileManager.getInstance(ListAll.this).addItem(ListAll.this, 0);
                     Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position);
                     startActivity(i);
                 } else {
-                    ind = position;
+                    ind = position - 1;
                     Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position - 1);
                     startActivity(i);
@@ -60,7 +61,7 @@ public class ListAll extends ActionBarActivity {
         main.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                if(position!=0){
+                if (position != 0) {
                     new AlertDialog.Builder(ListAll.this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Delete File")
@@ -78,6 +79,7 @@ public class ListAll extends ActionBarActivity {
                 return true;
             }
         });
+        ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).cancel(Notify.uniqueID);
     }
 
     @Override
@@ -88,6 +90,7 @@ public class ListAll extends ActionBarActivity {
 
     public void onResume() {
         if (ind >= 0) {
+            FileManager.getInstance(this).checkEmpty(this, ind);
             ca.notifyDataSetChanged();
         }
         super.onResume();
@@ -113,26 +116,26 @@ public class ListAll extends ActionBarActivity {
         public CustomAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
             titles = objects;
-            addNew =LayoutInflater.from(getContext()).inflate(R.layout.addnew, null);
+            addNew = LayoutInflater.from(getContext()).inflate(R.layout.addnew, null);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(position==0){
+            if (position == 0) {
                 return addNew;
             }
-            if (convertView == null||convertView==addNew) {
+            if (convertView == null || convertView == addNew) {
                 LayoutInflater vi = LayoutInflater.from(getContext());
                 convertView = vi.inflate(R.layout.listitem, null);
             }
             TextView t = (TextView) convertView.findViewById(R.id.itemtv);
-            t.setText(titles.get(position-1));
+            t.setText(titles.get(position - 1));
             return convertView;
         }
 
         @Override
         public int getCount() {
-            return titles.size()+1;
+            return titles.size() + 1;
         }
 
 

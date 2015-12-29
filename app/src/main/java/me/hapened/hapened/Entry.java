@@ -32,4 +32,8 @@ public class Entry {
         text="";
     }
 
+    public boolean isEmpty(){
+        return (text==null||text.length()==0)&&(title==null||title.length()==0);
+    }
+
 }

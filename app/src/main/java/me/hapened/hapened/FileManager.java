@@ -49,7 +49,7 @@ public class FileManager {
                     BufferedReader individualBr = new BufferedReader(new FileReader((new File(con.getFilesDir(), filenames.get(i).toString()))));
                     titles.add(individualBr.readLine());
                 }
-                filenames.add(0,0);
+                filenames.add(0, 0);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -77,8 +77,8 @@ public class FileManager {
             if (text.length() >= 1) {
                 text = text.substring(0, text.length() - 1);
             }
-            if(title==null){
-                title="";
+            if (title == null) {
+                title = "";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,7 +99,7 @@ public class FileManager {
             numEntries += 1;
             PrintWriter writer = new PrintWriter(new FileWriter(mainFile));
             writer.println(numEntries);
-            for (int i = 0; i < filenames.size()-1; i++) {
+            for (int i = 0; i < filenames.size() - 1; i++) {
                 writer.println(filenames.get(i));
             }
             writer.close();
@@ -117,7 +117,7 @@ public class FileManager {
         try {
             PrintWriter writer = new PrintWriter(mainFile);
             writer.println(numEntries);
-            for (int i = 0; i < filenames.size()-1; i++) {
+            for (int i = 0; i < filenames.size() - 1; i++) {
                 writer.println(filenames.get(i));
             }
             writer.close();
@@ -145,5 +145,11 @@ public class FileManager {
 
     public void save() {
 
+    }
+
+    public void checkEmpty(Context con, int index) {
+        if (getItem(con,index).isEmpty()) {
+            deleteItem(con, index);
+        }
     }
 }
