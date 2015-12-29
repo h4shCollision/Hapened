@@ -120,6 +120,10 @@ public class FileManager {
 
 
     public void setItem(int index, Entry newEntry) {
+        if(newEntry==null||newEntry.isEmpty()){
+            deleteItem(index);
+            return;
+        }
         titles.set(index, newEntry.getTitle());
         try {
             PrintWriter writer = new PrintWriter(new File(con.getFilesDir(), filenames.get(index).toString()));
