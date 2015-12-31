@@ -1,13 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference android:title="Password Protections"
+    <CheckBoxPreference android:title="Password Protection"
         android:defaultValue="false"
         android:summary="Password protection"
         android:key="pswd" />
 
     <EditTextPreference
         android:key="password"
-        android:title="password"
+        android:title="Password"
         android:summary="enter password"
         android:inputType="textPassword"
         android:dependency="pswd"
