@@ -33,7 +33,7 @@ public class Entry {
     }
 
     public boolean isEmpty(){
-        return (text==null||text.length()==0)&&(title==null||title.length()==0);
+        return (title==null||title.length()==0);//&&(text==null||text.length()==0);
     }
 
 }
