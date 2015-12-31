@@ -1,14 +1,10 @@
 package me.hapened.hapened;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,13 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class ListAll extends ActionBarActivity {
 
     ListView main;
-    private final long[] INTERVALS = {0, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 30, AlarmManager.INTERVAL_DAY * 365};
     CustomAdapter ca;
     private static int ind=-1;
 
@@ -43,7 +37,7 @@ public class ListAll extends ActionBarActivity {
                 System.out.println("listclick");
                 if (position == 0) {
                     ind = 0;
-                    FileManager.getInstance().addItem();
+                    FileManager.getInstance().addItem(ListAll.this);
                     Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position);
                     startActivity(i);
@@ -66,7 +60,7 @@ public class ListAll extends ActionBarActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    FileManager.getInstance().deleteItem(position - 1);
+                                    FileManager.getInstance().deleteItem(ListAll.this, position - 1);
                                     ca.notifyDataSetChanged();
                                 }
                             })
@@ -87,11 +81,12 @@ public class ListAll extends ActionBarActivity {
 
     @Override
     public void onResume() {
-        System.out.println("ind"+ind);
+        //System.out.println("ind"+ind);
         if (ind >= 0) {
-            FileManager.getInstance().checkEmpty(ind);
+            FileManager.getInstance().checkEmpty(this,ind);
             ca.notifyDataSetChanged();
         }
+        ind=-1;
         super.onResume();
     }
 
@@ -144,23 +139,20 @@ public class ListAll extends ActionBarActivity {
     protected void onDestroy() {
         int prefIdx = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
         //=0;
-        System.out.println("freq" + prefIdx);
+        System.out.println("freq"+prefIdx);
 
-        Intent alarmIntent = new Intent(this, Notify.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        //manager.cancel(pendingIntent);
+        Intent intent1 = new Intent(this, Notify.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
+        am.cancel(pendingIntent);
 
         if (prefIdx != 0) {
             System.out.println("alarm");
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 17);
-            calendar.set(Calendar.MINUTE, 22);
-            calendar.set(Calendar.SECOND, 1);
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);            System.out.println(calendar.getTimeInMillis()-System.currentTimeMillis());
+            calendar.set(Calendar.MINUTE, 20);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+            System.out.println(calendar.getTimeInMillis()-System.currentTimeMillis());
         }
 
         super.onDestroy();

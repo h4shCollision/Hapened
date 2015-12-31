@@ -3,6 +3,7 @@ package me.hapened.hapened;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -15,7 +16,14 @@ public class SA extends ActionBarActivity {
         c.startActivity(new Intent(c, SA.class));
     }
 
-    public static class PrefsFrag extends PreferenceFragment {
+
+    public static class PrefsFrag extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
+
+        Context c;
+
+        public void setC(Context c) {
+            this.c = c;
+        }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,27 @@ public class SA extends ActionBarActivity {
             addPreferencesFromResource(R.xml.preferences);
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+        }
+
+        @Override
+        public void onPause() {
+            getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            super.onPause();
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if(key.equals("frequency")){
+                BR.setAlarm(c,false,System.currentTimeMillis());
+            }/*else if(key=="pswd"&&sharedPreferences.getBoolean(key,false)){
+
+            }*/
+        }
     }
 
     @Override
@@ -33,7 +62,8 @@ public class SA extends ActionBarActivity {
 
         //LinearLayout ll= (LinearLayout) findViewById(R.id.settingA);
         FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.settingA, new PrefsFrag());
+        PrefsFrag pf=new PrefsFrag();pf.setC(this);
+        fragmentTransaction.add(R.id.settingA, pf);
         fragmentTransaction.commit();
     }
 
@@ -53,4 +83,5 @@ public class SA extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

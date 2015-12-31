@@ -22,14 +22,14 @@ public class FileManager {
     private static String fileName = "filename.txt";//list of all files
     private int numEntries = 0;
     private File mainFile;
-    private Context con;
+    //private Context con;
 
     public static synchronized FileManager getInstance() {
         return instance;
     }
 
     private FileManager(Context con) {
-        this.con =con;
+        //this.con =con;
         mainFile = new File(con.getFilesDir(), fileName);
         try {
             if (!mainFile.exists()) {
@@ -65,7 +65,7 @@ public class FileManager {
     }
 
     // get the ith entry
-    public Entry getItem(int index) {
+    public Entry getItem(Context con,int index) {
         String text = "", title = "";
         System.out.println(index);
         try {
@@ -91,7 +91,7 @@ public class FileManager {
         return targetEntry;
     }
 
-    public void addItem() {
+    public void addItem(Context con) {
 
         int num = filenames.get(0) + 1;
         File newFile = new File(con.getFilesDir(), Integer.toString(num));
@@ -107,7 +107,7 @@ public class FileManager {
 
     }
 
-    public void deleteItem(int index) {
+    public void deleteItem(Context con,int index) {
         con.deleteFile(Integer.toString(filenames.get(index)));
         filenames.remove(index);
         titles.remove(index);
@@ -116,7 +116,7 @@ public class FileManager {
     }
 
 
-    public void setItem(int index, Entry newEntry) {
+    public void setItem(Context con,int index, Entry newEntry) {
         /*if(newEntry==null||newEntry.isEmpty()){
             deleteItem(index);
             return;
@@ -141,9 +141,9 @@ public class FileManager {
 
     }
 
-    public void checkEmpty(int index) {
-        if (getItem(index).isEmpty()) {
-            deleteItem(index);
+    public void checkEmpty(Context con,int index) {
+        if (getItem(con,index).isEmpty()) {
+            deleteItem(con,index);
         }
     }
 
