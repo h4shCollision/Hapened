@@ -37,7 +37,7 @@ public class ListAll extends ActionBarActivity {
                 System.out.println("listclick");
                 if (position == 0) {
                     ind = 0;
-                    FileManager.getInstance().addItem();
+                    FileManager.getInstance().addItem(ListAll.this);
                     Intent i = new Intent(ListAll.this, Edit.class);
                     i.putExtra(Edit.INDEX, position);
                     startActivity(i);
@@ -60,7 +60,7 @@ public class ListAll extends ActionBarActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    FileManager.getInstance().deleteItem(position - 1);
+                                    FileManager.getInstance().deleteItem(ListAll.this, position - 1);
                                     ca.notifyDataSetChanged();
                                 }
                             })
@@ -84,9 +84,10 @@ public class ListAll extends ActionBarActivity {
     public void onResume() {
         //System.out.println("ind"+ind);
         if (ind >= 0) {
-            FileManager.getInstance().checkEmpty(ind);
+            FileManager.getInstance().checkEmpty(this,ind);
             ca.notifyDataSetChanged();
         }
+        ind=-1;
         super.onResume();
     }
 
