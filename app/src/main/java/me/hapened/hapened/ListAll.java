@@ -1,6 +1,7 @@
 package me.hapened.hapened;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -132,29 +133,5 @@ public class ListAll extends ActionBarActivity {
             return titles.size() + 1;
         }
 
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        int prefIdx = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("frequency", "1"));
-        //=0;
-        System.out.println("freq"+prefIdx);
-
-        Intent intent1 = new Intent(this, Notify.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
-        am.cancel(pendingIntent);
-
-        if (prefIdx != 0) {
-            System.out.println("alarm");
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.MINUTE, 20);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-            System.out.println(calendar.getTimeInMillis()-System.currentTimeMillis());
-        }
-
-        super.onDestroy();
     }
 }
