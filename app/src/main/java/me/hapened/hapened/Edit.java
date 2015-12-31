@@ -126,6 +126,9 @@ public class Edit extends ActionBarActivity {
             alert.setTitle("Title cannot be empty");
             TextView tv = new TextView(this);
             tv.setText("Your entry will be deleted if the title is empty");
+            float scale = getResources().getDisplayMetrics().density;
+            int dpAsPixels = (int) (8*scale + 0.5f);
+            tv.setPadding(dpAsPixels,dpAsPixels,dpAsPixels,dpAsPixels);
             alert.setView(tv);
             alert.setPositiveButton("Delete entry", new DialogInterface.OnClickListener() {
                 @Override
