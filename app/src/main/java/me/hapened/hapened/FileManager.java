@@ -60,25 +60,23 @@ public class FileManager {
     }
 
     public static void setInstance(Context c) {
-        System.out.println("fminit");
-        instance=new FileManager(c);
+        //System.out.println("fminit");
+        instance = new FileManager(c);
     }
 
     // get the ith entry
-    public Entry getItem(Context con,int index) {
-        String text = "", title = "";
+    public Entry getItem(Context con, int index) {
+        String text = "", title = "", date = "";
         System.out.println(index);
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
             title = br.readLine();
-            System.out.println("title" + title);
-            String line = null;
+            date = br.readLine();
+            //System.out.println("title" + title);
+            String line;
             text = "";
             while ((line = br.readLine()) != null) {
                 text += line + "\n";
-            }
-            if (text.length() >= 1) {
-                text = text.substring(0, text.length() - 1);
             }
             if (title == null) {
                 title = "";
@@ -87,12 +85,11 @@ public class FileManager {
             e.printStackTrace();
         }
         System.out.println(title);
-        Entry targetEntry = new Entry(title, text);
+        Entry targetEntry = new Entry(title, text, date);
         return targetEntry;
     }
 
     public void addItem(Context con) {
-
         int num = filenames.get(0) + 1;
         File newFile = new File(con.getFilesDir(), Integer.toString(num));
         try {
@@ -100,6 +97,7 @@ public class FileManager {
             filenames.add(0, num);
             titles.add(0, "");
             numEntries += 1;
+            writeFile(con, 0, new Entry());
             writeMainFile();
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
@@ -107,7 +105,7 @@ public class FileManager {
 
     }
 
-    public void deleteItem(Context con,int index) {
+    public void deleteItem(Context con, int index) {
         con.deleteFile(Integer.toString(filenames.get(index)));
         filenames.remove(index);
         titles.remove(index);
@@ -116,21 +114,10 @@ public class FileManager {
     }
 
 
-    public void setItem(Context con,int index, Entry newEntry) {
-        /*if(newEntry==null||newEntry.isEmpty()){
-            deleteItem(index);
-            return;
-        }*/
+    public void setItem(Context con, int index, Entry newEntry) {
         titles.set(index, newEntry.getTitle());
-        try {
-            PrintWriter writer = new PrintWriter(new File(con.getFilesDir(), filenames.get(index).toString()));
-            writer.println(newEntry.getTitle());
-            writer.println(newEntry.getText());
-            writer.close();
-            writeMainFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeFile(con, index, newEntry);
+        writeMainFile();
     }
 
     public List<String> getTitles() {
@@ -141,13 +128,13 @@ public class FileManager {
 
     }
 
-    public void checkEmpty(Context con,int index) {
-        if (getItem(con,index).isEmpty()) {
-            deleteItem(con,index);
+    public void checkEmpty(Context con, int index) {
+        if (getItem(con, index).isEmpty()) {
+            deleteItem(con, index);
         }
     }
 
-    private void writeMainFile(){
+    private void writeMainFile() {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(mainFile);
@@ -159,5 +146,16 @@ public class FileManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void writeFile(Context con, int index, Entry ent) {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new File(con.getFilesDir(), filenames.get(index).toString()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        writer.print(ent.toString());
+        writer.close();
     }
 }
