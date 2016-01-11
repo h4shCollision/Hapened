@@ -66,13 +66,13 @@ public class FileManager {
 
     // get the ith entry
     public Entry getItem(Context con, int index) {
-        String text = "", title = "", date = "";
+        String text = "", title = "", date = "", image="";
         System.out.println(index);
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
             title = br.readLine();
+            image=br.readLine();//future features
             date = br.readLine();
-            //System.out.println("title" + title);
             String line;
             text = "";
             while ((line = br.readLine()) != null) {

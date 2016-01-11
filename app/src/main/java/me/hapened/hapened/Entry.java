@@ -9,6 +9,7 @@ import java.util.Date;
 public class Entry {
     private String title;
     private String text,date;
+    private boolean image=false;
 
     public String getText() {
         return text;
@@ -51,6 +52,6 @@ public class Entry {
 
     @Override
     public String toString() {
-        return title+"\n"+date+"\n"+text;
+        return title+"\n"+image+"\n"+date+"\n"+text;
     }
 }
