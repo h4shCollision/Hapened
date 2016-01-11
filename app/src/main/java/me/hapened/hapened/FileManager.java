@@ -72,15 +72,21 @@ public class FileManager {
             BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
             title = br.readLine();
             image=br.readLine();//future features
+            System.out.println("image"+image);
             date = br.readLine();
-            String line;
-            text = "";
-            while ((line = br.readLine()) != null) {
-                text += line + "\n";
+            //String line;
+            //text = "";
+            StringBuilder sb=new StringBuilder();
+            int line=br.read();
+            while (line!=-1) {
+                sb.append((char)(line)) ;
+                line=br.read();
             }
             if (title == null) {
                 title = "";
             }
+            text=sb.toString();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
