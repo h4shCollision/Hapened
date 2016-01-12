@@ -18,10 +18,10 @@ public class Notify extends WakefulBroadcastReceiver {
         NotificationCompat.Builder n=new NotificationCompat.Builder(context);
         n.setAutoCancel(true);
         n.setSmallIcon(R.drawable.notiflogo);
-        n.setTicker("ticker");
+        n.setTicker("Don't forger to write your entry!");
         n.setWhen(System.currentTimeMillis());
-        n.setContentTitle("title");
-        n.setContentText("text");
+        n.setContentTitle("Hapened");
+        n.setContentText("Don't forger to write your entry!");
         Intent it=new Intent(context,ListAll.class);
         PendingIntent pi=PendingIntent.getBroadcast(context,0, it,0);
         n.setContentIntent(pi);
