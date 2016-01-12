@@ -19,11 +19,10 @@ import java.util.Date;
 
 public class Edit extends ActionBarActivity {
 
-    public static String PREVIOUS_ACTIVITY = "pa";
     static final String INDEX = "I";
     private EditText editTitle, editContent;
     private ActionBar ab;
-    private int index;
+    private int index,TVPadding;//textviewpadding
     private Entry entry;
 
     @Override
@@ -78,6 +77,8 @@ public class Edit extends ActionBarActivity {
             }
         });
         editContent.setText(entry.getText());
+        ((TextView)findViewById(R.id.date)).setText("Date: "+entry.getDate());
+        TVPadding = (int) (8*getResources().getDisplayMetrics().density + 0.5f);
     }
 
     @Override
@@ -126,9 +127,7 @@ public class Edit extends ActionBarActivity {
             alert.setTitle("Title cannot be empty");
             TextView tv = new TextView(this);
             tv.setText("Your entry will be deleted if the title is empty");
-            float scale = getResources().getDisplayMetrics().density;
-            int dpAsPixels = (int) (8*scale + 0.5f);
-            tv.setPadding(dpAsPixels,dpAsPixels,dpAsPixels,dpAsPixels);
+            tv.setPadding(TVPadding, TVPadding, TVPadding, TVPadding);
             alert.setView(tv);
             alert.setPositiveButton("Delete entry", new DialogInterface.OnClickListener() {
                 @Override
@@ -136,7 +135,7 @@ public class Edit extends ActionBarActivity {
                     Edit.super.onBackPressed();
                 }
             });
-            alert.setNegativeButton("Go Back", null);
+            alert.setNegativeButton("Do not delete", null);
             AlertDialog a = alert.create();
             a.show();
         }else{
