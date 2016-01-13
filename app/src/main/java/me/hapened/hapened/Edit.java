@@ -32,7 +32,7 @@ public class Edit extends ActionBarActivity {
     static final String INDEX = "I";
     private EditText editTitle, editContent;
     private ActionBar ab;
-    private boolean addimage = false;
+    private boolean addimage = false, save = true;
     private int index, TVPadding, imageIndex = -1;
     private Entry entry;
     private static final int CAMERA_REQUEST_CODE = 100, GALLERY_REQUEST_CODE = 200, LIST_TO_LAYOUT = 3;
@@ -95,19 +95,19 @@ public class Edit extends ActionBarActivity {
         ((TextView) findViewById(R.id.date)).setText("Date: " + entry.getDate());
         TVPadding = (int) (8 * getResources().getDisplayMetrics().density + 0.5f);
         ll = (LinearLayout) findViewById(R.id.editll);
-        photos=FileManager.getInstance().loadImages(this,entry,index);
+        photos = FileManager.getInstance().loadImages(this, entry, index);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        for (int j= 0; j < photos.size(); j++) {
+        for (int j = 0; j < photos.size(); j++) {
             ImageView iv = new ImageView(this);
-            Bitmap b=photos.get(j);
+            Bitmap b = photos.get(j);
             iv.setImageBitmap(b);
             int width = dm.widthPixels, height = width * b.getHeight() / b.getWidth();
             if (height > dm.heightPixels) {
                 height = dm.heightPixels;
                 width = height * b.getWidth() / b.getHeight();
             }
-            iv.setPadding(8, 8, 8, 8);
+            iv.setPadding(0, 8, 0, 8);
             iv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -160,7 +160,7 @@ public class Edit extends ActionBarActivity {
     }
 
     private void exitDialog() {
-        if (entry.getTitle() == null || entry.getTitle().equals("") && entry.getText() != null && !entry.getText().equals("")) {
+        if (entry.getTitle() == null || entry.getTitle().equals("") && (entry.getText() != null && !entry.getText().equals("") || photos.size() > 0)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("Title cannot be empty");
             TextView tv = new TextView(this);
@@ -263,7 +263,7 @@ public class Edit extends ActionBarActivity {
         if (addimage) {
             ImageView iv = new ImageView(this);
             iv.setImageBitmap(newbm);
-            iv.setPadding(8, 8, 8, 8);
+            iv.setPadding(0, 8, 0, 8);
             iv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -272,7 +272,7 @@ public class Edit extends ActionBarActivity {
                 }
             });
             photos.add(newbm);
-            ll.addView(iv, photos.size() + LIST_TO_LAYOUT-1, new LinearLayout.LayoutParams(width, height));
+            ll.addView(iv, photos.size() + LIST_TO_LAYOUT - 1, new LinearLayout.LayoutParams(width, height));
             addimage = false;
         } else {
             if (imageIndex >= 0) {
@@ -284,7 +284,7 @@ public class Edit extends ActionBarActivity {
     }
 
     private void longClick(View v) {
-        imageIndex = ll.indexOfChild(v)-LIST_TO_LAYOUT;
+        imageIndex = ll.indexOfChild(v) - LIST_TO_LAYOUT;
         if (imageIndex < 0) return;
         CharSequence options[] = new CharSequence[]{"Change", "Delete"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -304,18 +304,20 @@ public class Edit extends ActionBarActivity {
     }
 
     private void removeImage() {
-        if(imageIndex>=0){
-            ll.removeViewAt(imageIndex+LIST_TO_LAYOUT);
+        if (imageIndex >= 0) {
+            ll.removeViewAt(imageIndex + LIST_TO_LAYOUT);
             photos.remove(imageIndex);
         }
-        imageIndex=-1;
+        imageIndex = -1;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         entry.setImage(photos.size());
-        FileManager.getInstance().setItem(this, index, entry);
-        FileManager.getInstance().saveImages(this,entry,index,photos);
+        if (!entry.isEmpty()) {
+            FileManager.getInstance().setItem(this, index, entry);
+            FileManager.getInstance().saveImages(this, entry, index, photos);
+        }
     }
 }

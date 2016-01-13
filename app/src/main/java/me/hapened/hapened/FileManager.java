@@ -119,6 +119,13 @@ public class FileManager {
     }
 
     public void deleteItem(Context con, int index) {
+        Entry e=getItem(con,index);
+        int n=e.getImage();
+        String filepref = filenames.get(index) + "_", filepostf = ".png";
+        for (int i = 0; i < n; i++) {
+            String name = filepref + i+filepostf;
+            con.deleteFile(name);
+        }
         con.deleteFile(Integer.toString(filenames.get(index)));
         filenames.remove(index);
         titles.remove(index);
