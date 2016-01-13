@@ -1,10 +1,14 @@
 package me.hapened.hapened;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,14 +26,12 @@ public class FileManager {
     private static String fileName = "filename.txt";//list of all files
     private int numEntries = 0;
     private File mainFile;
-    //private Context con;
 
     public static synchronized FileManager getInstance() {
         return instance;
     }
 
     private FileManager(Context con) {
-        //this.con =con;
         mainFile = new File(con.getFilesDir(), fileName);
         try {
             if (!mainFile.exists()) {
@@ -66,32 +68,37 @@ public class FileManager {
 
     // get the ith entry
     public Entry getItem(Context con, int index) {
-        String text = "", title = "", date = "", image="";
+        String text = "", title = "", date = "", image = "";
         System.out.println(index);
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(con.getFilesDir(), filenames.get(index).toString())));
             title = br.readLine();
-            image=br.readLine();//future features
-            System.out.println("image"+image);
+            image = br.readLine();//future features
+            System.out.println("image" + image);
             date = br.readLine();
             //String line;
             //text = "";
-            StringBuilder sb=new StringBuilder();
-            int line=br.read();
-            while (line!=-1) {
-                sb.append((char)(line)) ;
-                line=br.read();
+            StringBuilder sb = new StringBuilder();
+            int line = br.read();
+            while (line != -1) {
+                sb.append((char) (line));
+                line = br.read();
             }
             if (title == null) {
                 title = "";
             }
-            text=sb.toString();
+            text = sb.toString();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println(title);
         Entry targetEntry = new Entry(title, text, date);
+        try {
+            targetEntry.setImage(Integer.parseInt(image));
+        }catch (Exception e){
+
+        }
         return targetEntry;
     }
 
@@ -132,6 +139,46 @@ public class FileManager {
 
     public void save() {
 
+    }
+
+    public ArrayList<Bitmap> loadImages(Context con, Entry newEntry, int index) {
+        String filepref = filenames.get(index) + "_", filepostf = ".png";
+        ArrayList<Bitmap> l = new ArrayList<>();
+        int len = newEntry.getImage();
+        System.out.println(len);
+        for (int i = 0; i < len; i++) {
+            String name = filepref + i+filepostf;
+            FileInputStream fis;
+            Bitmap b = null;
+            try {
+                fis = con.openFileInput(name);
+                b = BitmapFactory.decodeStream(fis);
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (b != null) {
+                l.add(b);
+            }
+        }
+        newEntry.setImage(l.size());
+        return l;
+    }
+
+    public void saveImages(Context con, Entry newEntry, int index, ArrayList<Bitmap> l) {
+        String filepref = filenames.get(index) + "_", filepostf = ".png";
+        for (int i = 0; i < l.size(); i++) {
+            String name = filepref + i+filepostf;
+            System.out.println("imagename "+name);
+            FileOutputStream fos;
+            try {
+                fos = con.openFileOutput(name, Context.MODE_PRIVATE);
+                l.get(i).compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void checkEmpty(Context con, int index) {

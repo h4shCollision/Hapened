@@ -9,7 +9,7 @@ import java.util.Date;
 public class Entry {
     private String title;
     private String text,date;
-    private boolean image=false;
+    private int image=0;
 
     public String getText() {
         return text;
@@ -24,7 +24,7 @@ public class Entry {
     }
 
     public Entry(String title, String text, String date) {
-        System.out.println("date"+date);
+        //System.out.println("date"+date);
         this.title = title;
         this.text = text;
         this.date = date;
@@ -53,5 +53,13 @@ public class Entry {
     @Override
     public String toString() {
         return title+"\n"+image+"\n"+date+"\n"+text;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }
