@@ -9,6 +9,7 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
 //settings activity, messed up the naming
 public class SA extends ActionBarActivity {
 
@@ -19,9 +20,9 @@ public class SA extends ActionBarActivity {
 
     public static class PrefsFrag extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
 
-        Context c;
+        SA c;
 
-        public void setC(Context c) {
+        public void setC(SA c) {
             this.c = c;
         }
 
@@ -48,10 +49,14 @@ public class SA extends ActionBarActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if(key.equals("frequency")){
                 BR.setAlarm(c,false,System.currentTimeMillis());
-            }/*else if(key=="pswd"&&sharedPreferences.getBoolean(key,false)){
+            }else if(key.equals("password")){
+                //c.updateSummary();
+            }
+            /*else if(key=="pswd"&&sharedPreferences.getBoolean(key,false)){
 
             }*/
         }
+
     }
 
     @Override

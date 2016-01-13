@@ -4,18 +4,20 @@
         android:defaultValue="false"
         android:summary="Password protection"
         android:key="pswd" />
-
+    <Preference android:layout= "@layout/preference_divider"/>
     <EditTextPreference
         android:key="password"
         android:title="Password"
-        android:summary="enter password"
+        android:summary="set password"
         android:inputType="textPassword"
         android:dependency="pswd"
-        android:selectable="true"/>
-    <!--<Preference android:layout= "@layout/preference_divider"/>-->
+        android:selectable="true"
+        android:password="true"/>
+    <Preference android:layout= "@layout/preference_divider"/>
+
     <ListPreference
         android:title="Reminders"
-        android:summary="Select ..."
+        android:summary="%s"
         android:key="frequency"
         android:defaultValue="1"
         android:entries="@array/listArray"

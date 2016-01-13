@@ -11,7 +11,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
  * Created by Lucy on 2015-12-22.
  */
 public class Notify extends WakefulBroadcastReceiver {
-    public static final int uniqueID=3657554;
+    public static final int uniqueID=987988;
 
     @Override
     public void onReceive(Context context, Intent intent) {

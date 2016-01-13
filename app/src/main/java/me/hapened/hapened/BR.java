@@ -30,6 +30,7 @@ public class BR extends BroadcastReceiver {
         Intent intent1 = new Intent(c, Notify.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(c, 0, intent1, 0);
         AlarmManager am = (AlarmManager) c.getSystemService(c.ALARM_SERVICE);
+        am.cancel(pendingIntent);
         System.out.println("pref"+prefIdx);
         if (prefIdx != 0) {
             System.out.println("alarm");
