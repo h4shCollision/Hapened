@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Entry {
     private String title;
-    private String text,date;
+    private String text,date,loc;
     private int image=0;
 
     public String getText() {
@@ -52,7 +52,7 @@ public class Entry {
 
     @Override
     public String toString() {
-        return title+"\n"+image+"\n"+date+"\n"+text;
+        return title+"\n"+image+"\n"+loc+"\n"+date+"\n"+text;
     }
 
     public int getImage() {
