@@ -24,7 +24,6 @@ public class Entry {
     }
 
     public Entry(String title, String text, String date) {
-        //System.out.println("date"+date);
         this.title = title;
         this.text = text;
         this.date = date;

@@ -19,6 +19,7 @@ public class LoadScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_screen);
+        BR.setAlarm(this,false,System.currentTimeMillis());
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pswd", false)) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             final EditText input = new EditText(this);

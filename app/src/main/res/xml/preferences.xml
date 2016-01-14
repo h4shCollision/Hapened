@@ -8,7 +8,7 @@
     <EditTextPreference
         android:key="password"
         android:title="Password"
-        android:summary="set password"
+        android:summary="Set password"
         android:inputType="textPassword"
         android:dependency="pswd"
         android:selectable="true"
@@ -17,7 +17,7 @@
 
     <ListPreference
         android:title="Reminders"
-        android:summary="%s"
+        android:summary="Reminder frequency"
         android:key="frequency"
         android:defaultValue="1"
         android:entries="@array/listArray"

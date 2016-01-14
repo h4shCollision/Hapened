@@ -17,11 +17,11 @@ public class Notify extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         NotificationCompat.Builder n=new NotificationCompat.Builder(context);
         n.setAutoCancel(true);
-        n.setSmallIcon(R.drawable.notiflogo);
-        n.setTicker("Don't forger to write your entry!");
+        n.setSmallIcon(R.mipmap.ic_launcher);
+        n.setTicker("Don't forget to write your entry!");
         n.setWhen(System.currentTimeMillis());
         n.setContentTitle("Hapened");
-        n.setContentText("Don't forger to write your entry!");
+        n.setContentText("Don't forget to write your entry!");
         Intent it=new Intent(context,ListAll.class);
         PendingIntent pi=PendingIntent.getBroadcast(context,0, it,0);
         n.setContentIntent(pi);

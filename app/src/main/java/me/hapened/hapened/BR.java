@@ -15,7 +15,7 @@ import android.preference.PreferenceManager;
 public class BR extends BroadcastReceiver {
     public static final long[] INTERVALS = {0, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY * 7, AlarmManager.INTERVAL_DAY * 30, AlarmManager.INTERVAL_DAY * 365};
     public static final String PREF_KEY_FILE = "key", NXT_TRIGGER_TIME_KEY = "time";
-    //public static final long[] INTERVALS = {0, 1000, 10000, 50000, 100000};
+    //public static final long[] INTERVALS = {0, 1000, 10000, 50000, 100000};//testing
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("adf");
@@ -24,7 +24,6 @@ public class BR extends BroadcastReceiver {
 
     public static void setAlarm(Context c, boolean booting, long time) {
         int prefIdx = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(c).getString("frequency", "1"));
-        //=0;
         System.out.println("freq" + prefIdx);
 
         Intent intent1 = new Intent(c, Notify.class);
@@ -38,7 +37,7 @@ public class BR extends BroadcastReceiver {
             if (!booting) {
                 time += INTERVALS[prefIdx];
             }
-            am.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            am.set(AlarmManager.RTC, time, pendingIntent);
             c.getSharedPreferences(PREF_KEY_FILE, Context.MODE_PRIVATE).edit().putLong(NXT_TRIGGER_TIME_KEY, time);
             ComponentName receiver = new ComponentName(c, BR.class);
             PackageManager pm = c.getPackageManager();
