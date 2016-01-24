@@ -29,6 +29,10 @@ public class ListAll extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_all);
+        android.support.v7.app.ActionBar actionBar=getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
         main = (ListView) findViewById(R.id.mainlist);
         ca = new CustomAdapter(this, R.id.itemtv, FileManager.getInstance().getTitles());
         main.setAdapter(ca);

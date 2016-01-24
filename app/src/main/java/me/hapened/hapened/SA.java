@@ -63,7 +63,8 @@ public class SA extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        android.support.v7.app.ActionBar actionBar=getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         //LinearLayout ll= (LinearLayout) findViewById(R.id.settingA);
         FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
