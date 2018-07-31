@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference android:title="Password Protection"
+        android:defaultValue="false"
+        android:summary="Password protection"
+        android:key="pswd" />
+    <Preference android:layout= "@layout/preference_divider"/>
+    <EditTextPreference
+        android:key="password"
+        android:title="Password"
+        android:summary="Set password"
+        android:inputType="textPassword"
+        android:dependency="pswd"
+        android:selectable="true"
+        android:password="true"/>
+    <Preference android:layout= "@layout/preference_divider"/>
+
+    <ListPreference
+        android:title="Reminders"
+        android:summary="Reminder frequency"
+        android:key="frequency"
+        android:defaultValue="1"
+        android:entries="@array/listArray"
+        android:entryValues="@array/listValues" />
+
+</PreferenceScreen>
